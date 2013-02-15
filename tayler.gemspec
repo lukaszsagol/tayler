@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*.rb"]
 
   s.add_dependency "rails", "~> 3.2.12"
+  s.add_dependency "nokogiri"
   s.add_development_dependency "rspec-rails"
 end
