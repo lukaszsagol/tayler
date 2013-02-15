@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+  <SOAP-ENV:Body>
+    <namesp1:echo xmlns:namesp1="urn:Echo">
+      <whatToEcho>I am going to be echoed</whatToEcho>
+    </namesp1:echo>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

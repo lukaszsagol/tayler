@@ -36,3 +36,7 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+def load_xml(filename)
+  File.read(File.expand_path(File.join('../fixtures/', filename), __FILE__))
+end
