@@ -10,7 +10,7 @@ module Tayler
       end
 
       it "responds with the same message it received" do
-        expect(EchoAction.new(@request).run).to eq(@response)
+        expect(EchoAction.new(@request).run.to_xml).to eq(@response)
       end
     end
 

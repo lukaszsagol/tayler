@@ -1,7 +1,16 @@
 require 'nokogiri'
 
 module Tayler
+  def self.available_actions
+    ObjectSpace.each_object(Class).select { |klass| klass < SoapAction }
+  end
+
+  def self.find_action(name)
+    available_actions.detect { |klass| klass.soap_action_name == name }
+  end
+
   class SoapAction
+    cattr_accessor :soap_action_name
     class << self
       def request(&block)
         @@request_parser = block
@@ -40,11 +49,14 @@ module Tayler
 
     def run
       response = process(parsed_body)
+
       builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8')
+
       wrap_in_response_envelope(builder) do |env_builder|
         @@response_formatter.call(env_builder, response)
       end
-      builder.to_xml
+
+      builder
     end
 
     def parse_namespaces!
