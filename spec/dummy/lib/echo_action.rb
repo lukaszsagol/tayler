@@ -1,8 +1,9 @@
 class EchoAction < Tayler::SoapAction
   action_name "echo"
+  response_namespace "namesp24", "urn:Echo"
 
   request do |xml|
-    val = xml.xpath('whatToEcho').first.text
+    val = xml.xpath('namesp1:whatToEcho').first.text
     { :what_to_echo => val }
   end
 

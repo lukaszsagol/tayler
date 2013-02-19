@@ -3,10 +3,11 @@
   xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
   xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
   xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
-  xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+  xmlns:xsd="http://www.w3.org/1999/XMLSchema"
+  xmlns:namesp1="urn:Echo">
   <SOAP-ENV:Body>
-    <namesp1:echo xmlns:namesp1="urn:Echo">
-      <whatToEcho>I am going to be echoed</whatToEcho>
+    <namesp1:echo>
+      <namesp1:whatToEcho>I am going to be echoed</namesp1:whatToEcho>
     </namesp1:echo>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

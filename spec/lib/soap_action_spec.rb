@@ -5,7 +5,8 @@ module Tayler
     context "example echo service" do
       before do
         @request = load_xml('echo_request.xml')
-        @response = load_xml('echo_response.xml')
+        # parse and convert with Nokogiri to avoid whitespace issues
+        @response = Nokogiri::XML.parse(load_xml('echo_response.xml')).to_xml
       end
 
       it "responds with the same message it received" do
