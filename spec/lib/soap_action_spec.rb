@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 module Tayler
   describe SoapAction do
     context "example echo service" do
@@ -16,25 +14,23 @@ module Tayler
 
     context "setup" do
       before do
-        @it = EchoAction
-        @request_parser = EchoAction.class_variable_get(:@@request_parser)
-        @response_formatter = EchoAction.class_variable_get(:@@response_formatter)
+        @it = class TestAction < SoapAction; action_name 'test'; self; end
         @proc = Proc.new { 'test' }
       end
 
       it "allows to provide own request parsing block" do
         @it.request(&@proc)
-        expect(@it.class_variable_get(:@@request_parser)).to eq(@proc)
+        expect(@it.request_parser).to eq(@proc)
       end
 
       it "allows to provide own response formatting block" do
         @it.response(&@proc)
-        expect(@it.class_variable_get(:@@response_formatter)).to eq(@proc)
+        expect(@it.response_formatter).to eq(@proc)
       end
 
-      after do
-        EchoAction.request(&@request_parser)
-        EchoAction.response(&@response_formatter)
+      it "allows to provide additional namspaces" do
+        @it.add_namespace "test", "urn:test"
+        expect(@it.additional_namespaces).to include({prefix: "test", href: "urn:test"})
       end
     end
 
@@ -61,7 +57,7 @@ module Tayler
       before do
         request = load_xml('echo_request.xml')
         @it = EchoAction.new(request)
-        @action_name = EchoAction.class_variable_get(:@@soap_action_name)
+        @action_name = EchoAction.soap_action_name
         @xml = Nokogiri::XML.parse(request)
       end
 

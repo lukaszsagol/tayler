@@ -3,24 +3,31 @@ require 'nokogiri'
 module Tayler
   class SoapAction
     class << self
+      attr_accessor :soap_action_name, :request_parser, :response_formatter,
+                    :response_namespace_value, :additional_namespaces
       def handles?(name)
-        @@soap_action_name == name.gsub('"', '')
+        @soap_action_name == name.gsub('"', '')
       end
 
       def request(&block)
-        @@request_parser = block
+        @request_parser = block
       end
 
       def response(&block)
-        @@response_formatter = block
+        @response_formatter = block
       end
 
       def action_name(name)
-        @@soap_action_name = name
+        @soap_action_name = name
       end
 
       def response_namespace(prefix, href)
-        @@response_namespace = { prefix: prefix, href: href }
+        @response_namespace_value = { prefix: prefix, href: href }
+      end
+
+      def add_namespace(prefix, href)
+        @additional_namespaces ||= []
+        @additional_namespaces << { prefix: prefix, href: href }
       end
     end
 
@@ -35,11 +42,11 @@ module Tayler
     end
 
     def request_body
-      @request_body ||= request_envelope.xpath("#{@soap_namespace.prefix}:Body/*[local-name() = '#{@@soap_action_name}']").first
+      @request_body ||= request_envelope.xpath("#{@soap_namespace.prefix}:Body/*[local-name() = '#{self.class.soap_action_name}']").first
     end
 
     def parsed_body
-      @@parsed_body ||= @@request_parser.call request_body
+      @parsed_body ||= self.class.request_parser.call request_body
     end
 
     def run
@@ -48,7 +55,7 @@ module Tayler
       builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8')
 
       wrap_in_response_envelope(builder) do |env_builder|
-        @@response_formatter.call(env_builder, response)
+        self.class.response_formatter.call(env_builder, response)
       end
 
       builder
@@ -66,10 +73,13 @@ module Tayler
         @namespaces.each do |ns|
           xml.doc.root.add_namespace_definition ns.prefix, ns.href
         end
-        response_ns = xml.doc.root.add_namespace_definition @@response_namespace[:prefix], @@response_namespace[:href]
+        (@additional_namespaces || []).each do |ns|
+          xml.doc.root.add_namespace_definition ns.prefix, ns.href
+        end
+        response_ns = xml.doc.root.add_namespace_definition self.class.response_namespace_value[:prefix], self.class.response_namespace_value[:href]
         xml.doc.root.namespace = xml.doc.root.namespace_definitions.detect { |ns| ns.prefix == @soap_namespace.prefix }
         xml.Body do
-          xml[response_ns.prefix].send("#{@@soap_action_name}Response") do
+          xml[response_ns.prefix].send("#{self.class.soap_action_name}Response") do
             block.call(xml)
           end
         end
