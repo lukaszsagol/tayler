@@ -3,7 +3,7 @@ PATH
   specs:
     tayler (0.0.1)
       nokogiri
-      rails (~> 3.2.12)
+      rails (~> 3.2)
 
 GEM
   remote: http://rubygems.org/

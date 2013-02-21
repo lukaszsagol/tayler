@@ -1,17 +1,12 @@
 require 'nokogiri'
 
 module Tayler
-  def self.available_actions
-    ObjectSpace.each_object(Class).select { |klass| klass < SoapAction }
-  end
-
-  def self.find_action(name)
-    available_actions.detect { |klass| klass.soap_action_name == name }
-  end
-
   class SoapAction
-    cattr_accessor :soap_action_name
     class << self
+      def handles?(name)
+        @@soap_action_name == name.gsub('"', '')
+      end
+
       def request(&block)
         @@request_parser = block
       end
