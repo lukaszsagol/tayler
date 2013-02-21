@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 module Tayler
   describe SoapAction do
     context "example echo service" do

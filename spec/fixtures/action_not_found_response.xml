@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap-env:Envelope xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" xmlns:xsd="http://www.w3.org/1999/XMLSchema" xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap-env:Body>
+    <soap-env:Fault>
+      <soap-env:faultcode xsi:type="xsd:string">Client</soap-env:faultcode>
+      <soap-env:faulstring xsi:type="xsd:string">Failed to locate action (inexistent)</soap-env:faulstring>
+    </soap-env:Fault>
+  </soap-env:Body>
+</soap-env:Envelope>

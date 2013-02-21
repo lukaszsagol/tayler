@@ -5,11 +5,11 @@ module Tayler
 
     def route
       action_name = request.env['HTTP_SOAPACTION']
-      if handler = Tayler.find_action(action_name)
-        response = handler.new(request.body).run
-        render :xml => response
-      else
-        render :text => "Handler for: #{action_name} not specified."
+      begin
+        handler = Tayler.find_action(action_name)
+        render :xml => handler.new(request.body).run
+      rescue Faults::SoapError => e
+        render :xml => e
       end
     end
   end
