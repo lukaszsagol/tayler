@@ -33,6 +33,12 @@ module Tayler
       end
     end
 
+    class CriticalError < SoapError
+      def initialize(e)
+        super("Server", "Something went wrong... (#{e.message})")
+      end
+    end
+
     class ActionNotFound < SoapError
       def initialize(action_name)
         super("Client", "Failed to locate action (#{action_name})")

@@ -10,6 +10,8 @@ module Tayler
         render :xml => handler.new(request.body).run
       rescue Faults::SoapError => e
         render :xml => e
+      rescue => e
+        render :xml => Faults::CriticalError.new(e)
       end
     end
   end
