@@ -73,8 +73,8 @@ module Tayler
         @namespaces.each do |ns|
           xml.doc.root.add_namespace_definition ns.prefix, ns.href
         end
-        (@additional_namespaces || []).each do |ns|
-          xml.doc.root.add_namespace_definition ns.prefix, ns.href
+        (self.class.additional_namespaces || []).each do |ns|
+          xml.doc.root.add_namespace_definition ns[:prefix], ns[:href]
         end
         response_ns = xml.doc.root.add_namespace_definition self.class.response_namespace_value[:prefix], self.class.response_namespace_value[:href]
         xml.doc.root.namespace = xml.doc.root.namespace_definitions.detect { |ns| ns.prefix == @soap_namespace.prefix }
