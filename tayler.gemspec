@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Łukasz Sągol"]
   s.email       = ["lukasz@sagol.pl"]
   s.homepage    = "http://github.com/zgryw/tayler"
-  s.summary     = "Soap made easy."
-  s.description = "http://stopsoap.com/"
+  s.summary     = "Easy as pie creation of custom SOAP servers."
+  s.description = "When you need to create SOAP service that will implement provided WSDL - Tayler is your friend."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*.rb"]

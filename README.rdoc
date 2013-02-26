@@ -1,3 +1,8 @@
 = Tayler
 
+http://stopsoap.com/
+
+Description coming soon...
+
+= License
 This project rocks and uses MIT-LICENSE.
