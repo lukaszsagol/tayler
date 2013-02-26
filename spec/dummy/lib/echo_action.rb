@@ -1,4 +1,4 @@
-class EchoAction < Tayler::SoapAction
+class EchoAction < Tayler::Server::SoapAction
   action_name "echo"
   response_namespace "namesp24", "urn:Echo"
 

@@ -6,7 +6,7 @@ module Tayler
     def route
       action_name = request.env['HTTP_SOAPACTION']
       begin
-        handler = Tayler.find_action(action_name)
+        handler = Tayler::Server.find_action(action_name)
         render :xml => handler.new(request.body).run
       rescue Faults::SoapError => e
         render :xml => e
