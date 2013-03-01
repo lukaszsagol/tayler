@@ -33,9 +33,11 @@ module Tayler
       end
 
       def initialize(request_body)
-        @raw_request = request_body
-        @xml_request = Nokogiri::XML.parse(@raw_request)
-        parse_namespaces!
+        unless request_body.blank?
+          @raw_request = request_body
+          @xml_request = Nokogiri::XML.parse(@raw_request)
+          parse_namespaces!
+        end
       end
 
       def request_envelope
