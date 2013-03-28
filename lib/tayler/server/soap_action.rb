@@ -41,11 +41,11 @@ module Tayler
       end
 
       def request_envelope
-        @request_envelope ||= @xml_request.xpath("/#{@soap_namespace.prefix}:Envelope[1]").first
+        @request_envelope ||= @xml_request.at_xpath("/Envelope")
       end
 
       def request_body
-        @request_body ||= request_envelope.xpath("#{@soap_namespace.prefix}:Body/*[local-name() = '#{self.class.soap_action_name}']").first
+        @request_body ||= request_envelope.at_xpath("Body/#{self.class.soap_action_name}")
       end
 
       def parsed_body
@@ -66,15 +66,15 @@ module Tayler
 
       def parse_namespaces!
         @soap_namespace = @xml_request.document.root.namespace
-        @namespaces = @xml_request.document.root.namespace_definitions
-        @request_namespace = request_body.namespace.try(:prefix)
+        @namespaces = @xml_request.collect_namespaces
+        @xml_request.remove_namespaces!
       end
       private :parse_namespaces!
 
       def wrap_in_response_envelope(builder, &block)
         builder.Envelope do |xml|
-          @namespaces.each do |ns|
-            xml.doc.root.add_namespace_definition ns.prefix, ns.href
+          @namespaces.each do |prefix, href|
+            xml.doc.root.add_namespace_definition prefix.gsub(/xmlns:/,''), href
           end
           (self.class.additional_namespaces || []).each do |ns|
             xml.doc.root.add_namespace_definition ns[:prefix], ns[:href]
