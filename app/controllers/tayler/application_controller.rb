@@ -2,7 +2,11 @@ module Tayler
   class ApplicationController < ActionController::Metal
     include ActionController::Rendering
     include ActionController::Renderers::All
-    include Airbrake::Rails::ControllerMethods if defined?(Airbrake)
+
+    if defined?(Airbrake)
+      require 'airbrake/rails/controller_methods'
+      include Airbrake::Rails::ControllerMethods
+    end
 
     def route
       action_name = request.env['HTTP_SOAPACTION']
