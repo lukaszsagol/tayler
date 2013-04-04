@@ -65,7 +65,7 @@ module Tayler
       end
 
       def parse_namespaces!
-        @soap_namespace = @xml_request.document.root.namespace
+        @soap_namespace = @xml_request.document.root.namespace.prefix
         @namespaces = @xml_request.collect_namespaces
         @xml_request.remove_namespaces!
       end
@@ -80,7 +80,7 @@ module Tayler
             xml.doc.root.add_namespace_definition ns[:prefix], ns[:href]
           end
           response_ns = xml.doc.root.add_namespace_definition self.class.response_namespace_value[:prefix], self.class.response_namespace_value[:href]
-          xml.doc.root.namespace = xml.doc.root.namespace_definitions.detect { |ns| ns.prefix == @soap_namespace.prefix }
+          xml.doc.root.namespace = xml.doc.root.namespace_definitions.detect { |ns| ns.prefix == @soap_namespace }
           xml.Body do
             xml[response_ns.prefix].send("#{self.class.soap_action_name}Response") do
               block.call(xml)
