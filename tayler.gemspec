@@ -8,7 +8,7 @@ require "tayler/version"
 Gem::Specification.new do |s|
   s.name        = "tayler"
   s.version     = Tayler::VERSION
-  s.authors     = ["Łukasz Sągol"]
+  s.authors     = ["Lukasz Sagol"]
   s.email       = ["lukasz@sagol.pl"]
   s.homepage    = "http://github.com/zgryw/tayler"
   s.summary     = "Easy as pie creation of custom SOAP servers."
